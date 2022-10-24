@@ -1,4 +1,4 @@
-# Project Proposal
+# Visual Web Scraper Project Proposal
 
 ## Project Members
 - Eric Pfister (epfist2) | Team Captain
