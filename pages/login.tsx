@@ -45,7 +45,7 @@ export default class Login extends React.Component<LoginProps> {
                 <p>Example of fetching user email (dont do this lol): {this.props.email}</p>
                 <p>Example of fetching user password: (dont do this lol) {this.props.password}</p>
                 <p>You probably want to set up an api endpoint in /api/ for creating a new user or logging in</p>
-            <div>
+            </div>
         )
     }
 }
