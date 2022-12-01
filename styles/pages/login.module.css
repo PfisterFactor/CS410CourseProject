@@ -1,3 +1,21 @@
+.body {
+    background-image: url('../images/login-background-img.jpg');
+    height: 30em;
+}
+
 .testing-styles {
     color: blue;
+}
+
+.login-header {
+    color: white;
+    text-align: center;
+    font-size: xx-large;
+}
+
+.input {
+    text-align: center;
+    padding: 2em;
+    border-color: white;
+    background-color: gray;
 }

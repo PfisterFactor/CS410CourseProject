@@ -13,8 +13,12 @@ export default class Login extends React.Component<LoginProps> {
     override render(): React.ReactNode {
         console.log(styles);
         return (
-            <div>
-                <p className={styles["testing-styles"]}>Put Login Screen here</p>
+            <div className={styles["body"]}>
+
+                <h1 className={styles["login-header"]}>Login Page</h1>
+                <div className={styles["input-box"]}>
+                    <input className={styles["input"]}></input>
+                </div>
             </div>
         )
     }
