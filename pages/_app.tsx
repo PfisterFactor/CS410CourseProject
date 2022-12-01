@@ -1,6 +1,15 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import App from "next/app"
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+/**
+ * Parent component for all components in a NextJS application
+ * Runs on server
+ * We shouldn't have to touch this
+ * See: https://nextjs.org/docs/advanced-features/custom-app
+ */
+export default class MyApp extends App<AppProps> {
+  override render(): JSX.Element {
+    return <this.props.Component {...this.props.pageProps} />
+  }
 }
