@@ -3,7 +3,7 @@
 ## Project Members
 - Eric Pfister (epfist2) | Team Captain
 - James Coombes (coombes3)
-- Khyle Calimlim (khlyejc2)
+- Khyle Calimlim (khylejc2)
 
 ## Proposal
 
