@@ -2,3 +2,30 @@
     color: red;
     background-color: blue;
 }
+
+.managerContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.LHS_Header {
+    text-align: center;
+    height: 50px;
+    font-weight: bolder;
+    background-color: rgba(136, 175, 207, 0.719);
+    
+}
+
+.flexLeft {
+    width: 75%;
+    height: 100vh;
+    /* flex-direction: column; */
+}
+
+.flexRight {
+    width: 25%;
+    height: 50px;
+    color: white;
+    background-color: rgb(79, 91, 102);
+    text-align: center;
+}
