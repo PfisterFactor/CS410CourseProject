@@ -4,6 +4,7 @@ import styles from '../styles/pages/manager.module.css'
 
 import { CompactTable } from '@table-library/react-table-library/compact';
 import axios from "axios";
+import useSWR from 'swr';
 
 // Todo: When user logs in: There needs to be a (probably global) state variable that updates
 //    which contains this user's ID so I can query their information from the database
@@ -17,6 +18,7 @@ import axios from "axios";
           // then have a save button which then does a PUT request at this endpoint
           // TODO: IN the API, have the put request rewrite/update the data for the appropriate documents
             // attempt to make good use of document IDS when updating 
+const managerURL = 'http://localhost:3000/api/manager';
 
 var nodes = [
   {
@@ -38,15 +40,27 @@ const COLUMNS = [
   { label: '# Successful Scrapes', renderCell: (item) => item.num_scrapes },
 ];
 
+async function fetcher(url) {
+  const res = await fetch(url);
+  const json = await res.json();
+  return json;
+}
+
 const QueueTable = () => {
   const [data, setData] = React.useState({nodes});
   // const data = { nodes };
-  useEffect(()=> {
-    axios.get('http://localhost:3000/api/manager'); 
-    //.then( validate non-null and then setData)
+  // useEffect(()=> {
+  //   console.log("before axios");
+  //   axios.get(managerURL)
+  //     .then((res) => {
+  //       console.log("HERE222");// THIS DOESNT PRINT??
+  //       var tempData = [];
+  //       console.log(res.data);
+  //     });
 
-    //Todo: finish endpoint so that we can test updating the QueueTable with data from DB
-  });
+  //   console.log("here33"); // THIS DOESNT PRINT??
+  //   //Todo: finish endpoint so that we can test updating the QueueTable with data from DB
+  // });
 
   const handleUpdate = (value, id) => {
     setData((state) => ({
