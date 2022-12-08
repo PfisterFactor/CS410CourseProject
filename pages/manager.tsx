@@ -12,7 +12,7 @@ interface ManagerProps {
 export default class Manager extends React.Component<ManagerProps> {
     override render(): React.ReactNode {
         return (
-            <div>Put scraping managing screen here</div>
+            <div className={styles.testing}>Put scraping poop screen here</div>
         )
     }
 }

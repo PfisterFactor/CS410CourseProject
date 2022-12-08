@@ -1,0 +1,9 @@
+.appheader {
+    width:100%;
+    display: flex;
+    gap: 2rem;
+}
+.appheader a {
+    display: block;
+    background-color: red;
+}

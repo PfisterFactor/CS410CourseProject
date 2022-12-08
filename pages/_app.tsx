@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import App from "next/app"
+import AppHeader from '../components/AppHeader'
 
 /**
  * Parent component for all components in a NextJS application
@@ -10,6 +11,11 @@ import App from "next/app"
  */
 export default class MyApp extends App<AppProps> {
   override render(): JSX.Element {
-    return <this.props.Component {...this.props.pageProps} />
-  }
+    return (
+      <div className="h-screen flex flex-col">
+        <AppHeader />
+        <this.props.Component {...this.props.pageProps} />
+      </div>
+    )
+  } 
 }
