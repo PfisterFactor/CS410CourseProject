@@ -27,9 +27,13 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 export default class WebsiteSelector extends React.Component<WebsiteSelectorProps> {
     override render(): React.ReactNode {
         return (
-            <div>
-                Put website selector screen hereg
-                <p>{this.props.test}</p>
+            <div className="flex flex-row flex-1">
+                <div className="flex-1 flex-col h-full bg-red-500">
+                    Left
+                </div>
+                <div className="flex-1 flex-col h-full bg-blue-500">
+                    Right
+                </div>
             </div>
         )
     }

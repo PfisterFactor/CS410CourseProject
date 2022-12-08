@@ -12,10 +12,10 @@ import AppHeader from '../components/AppHeader'
 export default class MyApp extends App<AppProps> {
   override render(): JSX.Element {
     return (
-      <div>
+      <div className="h-screen flex flex-col">
         <AppHeader />
         <this.props.Component {...this.props.pageProps} />
       </div>
     )
-  }
+  } 
 }
