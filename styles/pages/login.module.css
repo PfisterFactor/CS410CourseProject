@@ -14,8 +14,13 @@
 }
 
 .input {
-    text-align: center;
-    padding: 2em;
-    border-color: white;
+    font-size: large;
+    padding: 0.5em;
+    border: 0.25em solid white;
+    border-radius: 0.5em;
     background-color: gray;
+}
+
+.input-box {
+    text-align: center;
 }

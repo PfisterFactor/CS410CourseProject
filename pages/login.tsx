@@ -1,12 +1,17 @@
 import { GetServerSidePropsContext } from "next";
-import React from "react";
+import React, {useState} from "react";
 import { ConnectToDB } from "../backend/db/Database";
 import { UserModel } from "../backend/db/schemas/User";
 import styles from "../styles/pages/login.module.css"
+import { Input } from 'antd';
+import { Form, Button } from 'antd'
+import { useForm } from 'antd/lib/form/Form';
+import mongoose = require("mongoose");
+import axios from "axios";
 
 interface LoginProps {
     email: String,
-    password: String
+	password: String
 }
 
 /**
@@ -17,6 +22,9 @@ interface LoginProps {
  */
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     ConnectToDB();
+    // const [email, setEmail] = useState('');
+    // const [password, setPassword] = useState('')
+
     const exampleUser = await UserModel.findOne({
         email: "example@example.com"
     }).exec();
@@ -28,23 +36,47 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
         }
     };
 }
-/**
+/**s
  * The login page (Key interaction #1)
  * Route: "/login"
  */
 export default class Login extends React.Component<LoginProps> {
     override render(): React.ReactNode {
+
+		//ConnectToDB();
+
+		const handleSubmit = (event: React.FormEvent) => {
+			event.preventDefault();
+			const email_input = document.getElementById('email_box').value;
+			const pass_input = document.getElementById('pass_box').value;
+			console.log(email_input); // sanity check
+			console.log(pass_input); // sanity check
+			axios.post('http://localhost:3000/api/login', {params: {email: email_input, pass: pass_input}})
+		}
+
+		const handleCreate = (event: React.FormEvent) => {
+			event.preventDefault();
+		}
+		
         return (
             <div className={styles["body"]}>
-
-                <h1 className={styles["login-header"]}>Login Page</h1>
-                <div className={styles["input-box"]}>
-                    <input className={styles["input"]}></input>
-                </div>
-                <p className={styles["testing-styles"]}>Put Login Screen here</p>
-                <p>Example of fetching user email (dont do this lol): {this.props.email}</p>
-                <p>Example of fetching user password: (dont do this lol) {this.props.password}</p>
-                <p>You probably want to set up an api endpoint in /api/ for creating a new user or logging in</p>
+				<form onSubmit={handleSubmit}>
+					<h1 className={styles["login-header"]}>Login Page</h1>
+					<label className={styles["input-box"]}>
+						<input id={"email_box"} className={styles["input"]} placeholder={"Username"}
+							></input>
+					</label>
+					<label className={styles["input-box"]}>
+						<input id={"pass_box"} className={styles["input"]} placeholder={"Password"} type={"password"}
+							></input>
+					</label>
+					<div className={styles["input-box"]}>
+						<button type={"submit"}>Log in</button>
+					</div>
+				</form>
+				<form onSubmit={handleCreate}>
+				<button type={"submit"}>Create New Account</button>
+				</form>
             </div>
         )
     }
