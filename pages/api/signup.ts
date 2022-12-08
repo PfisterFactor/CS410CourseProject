@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ConnectToDB } from '../../backend/db/Database';
 import { UserModel } from "../../backend/db/schemas/User";
+import mongoose = require("mongoose");
+import Schema = require("mongoose");
 let md5 = require("blueimp-md5");
 
 type Data = {
@@ -19,17 +21,17 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 			email: req.body.params.email
 		}, function (err, specified_user) {
 			if (err) {
-				console.log("error logging in");
+				console.log("error signing up");
 			} else {
-				let expected_pass = specified_user?.password;
-				let hashed_pass = md5(req.body.params.pass);
-				console.log(hashed_pass);
-				if (hashed_pass === expected_pass) {
-					console.log('good');
-					// respond to the user in a way that validates the login
+				if (specified_user?.email === undefined) {
+					console.log('an account can be created');
+					let new_user = new UserModel({
+						email: req.body.params.email,
+						password: md5(req.body.params.pass)
+					});
+					new_user.save();
 				} else {
-					console.log('bad');
-					// respond that the username or password is wrong
+					console.log('this email already exists');
 				}
 			}
 		});

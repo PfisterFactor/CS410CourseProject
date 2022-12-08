@@ -53,10 +53,6 @@ export default class Login extends React.Component<LoginProps> {
 			console.log(pass_input); // sanity check
 			axios.post('http://localhost:3000/api/login', {params: {email: email_input, pass: pass_input}})
 		}
-
-		const handleCreate = (event: React.FormEvent) => {
-			event.preventDefault();
-		}
 		
         return (
             <div className={styles["body"]}>
@@ -73,9 +69,6 @@ export default class Login extends React.Component<LoginProps> {
 					<div className={styles["input-box"]}>
 						<button type={"submit"}>Log in</button>
 					</div>
-				</form>
-				<form onSubmit={handleCreate}>
-				<button type={"submit"}>Create New Account</button>
 				</form>
             </div>
         )
