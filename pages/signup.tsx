@@ -9,7 +9,7 @@ import { useForm } from 'antd/lib/form/Form';
 import mongoose = require("mongoose");
 import axios from "axios";
 
-interface LoginProps {
+interface SignupProps {
     email: String,
 	password: String
 }
@@ -40,7 +40,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
  * The login page (Key interaction #1)
  * Route: "/login"
  */
-export default class Login extends React.Component<LoginProps> {
+export default class Signup extends React.Component<SignupProps> {
     override render(): React.ReactNode {
 
 		//ConnectToDB();
@@ -56,18 +56,21 @@ export default class Login extends React.Component<LoginProps> {
 		
         return (
             <div className={styles["body"]}>
-				<form onSubmit={handleSubmit}>
-					<h1 className={styles["login-header"]}>Signup Page</h1>
-					<label className={styles["input-box"]}>
+				<form className={styles["body"]} onSubmit={handleSubmit}>
+					<h1 className={styles["login-header"]}>New Account Setup</h1>
+					<br/>
+					<div className={styles["input-box"]}>
 						<input id={"email_box"} className={styles["input"]} placeholder={"Username"}
 							></input>
-					</label>
-					<label className={styles["input-box"]}>
+					</div>
+					<br/>
+					<div className={styles["input-box"]}>
 						<input id={"pass_box"} className={styles["input"]} placeholder={"Password"} type={"password"}
 							></input>
-					</label>
+					</div>
+					<br/>
 					<div className={styles["input-box"]}>
-						<button type={"submit"}>Create New Account</button>
+						<button className={styles["button"]} type={"submit"}>Create New Account</button>
 					</div>
 				</form>
             </div>

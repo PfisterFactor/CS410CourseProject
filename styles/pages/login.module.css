@@ -1,6 +1,6 @@
 .body {
-    background-image: url('../images/login-background-img.jpg');
-    height: 30em;
+    background-color: rgb(153, 204, 255);
+	height: 30em;
 }
 
 .testing-styles {
@@ -22,5 +22,14 @@
 }
 
 .input-box {
-    text-align: center;
+	text-align: center;
+}
+
+.button {
+	border: 0.25em solid white;
+	padding-left: 5em;
+	padding-right: 5em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	border-radius: 2em;
 }

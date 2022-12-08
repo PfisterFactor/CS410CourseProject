@@ -56,18 +56,21 @@ export default class Login extends React.Component<LoginProps> {
 		
         return (
             <div className={styles["body"]}>
-				<form onSubmit={handleSubmit}>
-					<h1 className={styles["login-header"]}>Login Page</h1>
-					<label className={styles["input-box"]}>
+				<form className={styles["body"]} onSubmit={handleSubmit}>
+					<h1 className={styles["login-header"]}>Existing User Login</h1>
+					<br/>
+					<div className={styles["input-box"]}>
 						<input id={"email_box"} className={styles["input"]} placeholder={"Username"}
 							></input>
-					</label>
-					<label className={styles["input-box"]}>
+					</div>
+					<br/>
+					<div className={styles["input-box"]}>
 						<input id={"pass_box"} className={styles["input"]} placeholder={"Password"} type={"password"}
 							></input>
-					</label>
+					</div>
+					<br/>
 					<div className={styles["input-box"]}>
-						<button type={"submit"}>Log in</button>
+						<button className={styles["button"]} type={"submit"}>Log in</button>
 					</div>
 				</form>
             </div>
