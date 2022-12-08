@@ -33,7 +33,7 @@ export default () => {
 
 
     return (
-        <nav ref={navRef} className="bg-white w-full top-0 z-20">
+        <nav ref={navRef} className="bg-slate-100 w-full top-0 z-20 border-b-2 border-slate-500">
             <div className="items-center px-4 max-w-screen-xl mx-auto lg:flex lg:px-8">
                 <div className="flex items-center justify-between py-3 lg:py-4 lg:block">
                     <a href="/">
