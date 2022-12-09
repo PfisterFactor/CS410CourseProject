@@ -19,7 +19,7 @@ export default (props: WebsiteUrlInputProps) => {
                     type="text"
                     placeholder="www.example.com"
                     value={website}
-                    onInput={(e) => setWebsite(e.target.value)}
+                    onInput={(e) => setWebsite((e.target as any).value)}
                     id="website-url"
                     className="w-full p-2.5 ml-2 bg-transparent outline-none text-black-300"
                 />

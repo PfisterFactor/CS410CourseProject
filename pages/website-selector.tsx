@@ -14,13 +14,6 @@ import CronInput from "../components/website-selector/CronInput";
  * @param ctx server side context
  * @returns an object containing properties to pass to the client
  */
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-    return {
-        props: {
-            test: "testing123"
-        }
-    };
-}
 interface WebsiteSelectorProps { }
 
 interface WebsiteSelectorState {

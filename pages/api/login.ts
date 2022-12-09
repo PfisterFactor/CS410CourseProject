@@ -16,7 +16,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 
 		UserModel.findOne({
 			email: req.body.params.email
-		}, function (err, specified_user) {
+		}, function (err: any, specified_user: { password: any; }) {
 			if (err) {
 				console.log("error logging in");
 			} else {

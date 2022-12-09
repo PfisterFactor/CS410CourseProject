@@ -8,5 +8,5 @@ const UserSchema = new mongoose.Schema({
 });
 
 export type IUser = InferSchemaType<typeof UserSchema>
-export const UserModel = mongoose.models.user || mongoose.model("user",UserSchema);
+export const UserModel = mongoose?.models?.user || mongoose.model("user",UserSchema);
 

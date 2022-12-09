@@ -1,0 +1,21 @@
+{
+  "name": "scheduler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Scheduler.js",
+  "scripts": {
+    "start": "node Scheduler.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@breejs/later": "^4.1.0",
+    "axios": "^1.2.1",
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.0.3",
+    "install": "^0.13.0",
+    "mongoose": "^6.8.0",
+    "node-cron": "^3.0.2",
+    "npm": "^9.2.0"
+  }
+}

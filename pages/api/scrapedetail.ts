@@ -44,10 +44,13 @@ export default async function handler(
     console.log("hi");
     const toInsert: mongoose.Document = new ScrapeDetailModel({
         CSSSelectors: selectedElements.map(e => ({name: e.name, selector: e.selector, slug: e.name.toLowerCase().replace(" ", "-")})),
-        lastRan: new Date(),
+        lastRan: new Date(-8640000000000000),
+        scrapesRan: 0,
         schedule: frequency.cron,
         url: website,
     });
     await toInsert.save();
+    user.scheduled = [...user.scheduled, toInsert._id]
+    await user.save();
     res.status(200).json({statusText: "OK"});
 }
