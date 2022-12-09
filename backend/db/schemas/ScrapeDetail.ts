@@ -1,14 +1,19 @@
-import mongoose from "mongoose"
+import mongoose, { InferSchemaType } from "mongoose"
 
 const ScrapeDetailSchema = new mongoose.Schema(
     {
         url: String,
-        CSSSelectors: [],
+        CSSSelectors: [{
+            name: String,
+            selector: String,
+            slug: String
+        }],
         schedule: String,
         userID: String,
-        lastRan: Date   
+        lastRan: Date
     }
 );
 
+export type IScrapeDetail = InferSchemaType<typeof ScrapeDetailModel>
 export const ScrapeDetailModel = mongoose.models.scrapeDetail || mongoose.model("scrapeDetail", ScrapeDetailSchema, "scrapedetail");
 

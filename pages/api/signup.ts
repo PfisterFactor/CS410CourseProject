@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ConnectToDB } from '../../backend/db/Database';
 import { UserModel } from "../../backend/db/schemas/User";
-import mongoose = require("mongoose");
-import Schema = require("mongoose");
+import mongoose from 'mongoose';
 let md5 = require("blueimp-md5");
 
 type Data = {

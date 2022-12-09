@@ -101,8 +101,8 @@ class DomOutline {
         const b = this.opts.borderWidth;
         const scroll_top = this.getScrollTop();
         const pos = this.element.getBoundingClientRect();
-        const top = pos.top + scroll_top - bodyRect.top;
-        const left = pos.left - bodyRect.left;
+        const top = pos.top + scroll_top;
+        const left = pos.left;
 
         const label_text = this.compileLabelText(this.element, pos.width, pos.height);
         const label_top = Math.max(0, top - 20 - b, scroll_top);
