@@ -52,10 +52,30 @@ export default class Signup extends React.Component<SignupProps> {
 			console.log(email_input); // sanity check
 			console.log(pass_input); // sanity check
 			axios.post('http://localhost:3000/api/signup', {params: {email: email_input, pass: pass_input}})
+				.then(res => res.data)
+					.then( (json_result) => {
+						let created = json_result.created;
+						if (created) {
+							console.log("account created!");
+							// notify the user that their account creation was a success
+							// possibly log them in after this
+							const success_box = document.getElementById("success_box");
+							success_box.style.display = "inline";
+							const failure_box = document.getElementById("failure_box");
+							failure_box.style.display = "none";
+						} else {
+							// notify the user that their account creation was a failure
+							console.log("unable to create account");
+							const failure_box = document.getElementById("failure_box");
+							failure_box.style.display = "inline";
+							const success_box = document.getElementById("success_box");
+							success_box.style.display = "none";
+						}
+					});
 		}
 		
         return (
-            <div className={styles["body"]}>
+            
 				<form className={styles["body"]} onSubmit={handleSubmit}>
 					<h1 className={styles["login-header"]}>New Account Setup</h1>
 					<br/>
@@ -72,8 +92,16 @@ export default class Signup extends React.Component<SignupProps> {
 					<div className={styles["input-box"]}>
 						<button className={styles["button"]} type={"submit"}>Create New Account</button>
 					</div>
+					<br/><br/><br/>
+					<textarea readOnly id={"success_box"} className={styles["textarea-success"]}
+						defaultValue={"Account Successfuly Created!"}>
+					</textarea>
+					<textarea readOnly id={"failure_box"} className={styles["textarea-failure"]}
+						defaultValue={"Failed to Create Account"}>
+					</textarea>
 				</form>
-            </div>
+				
+            
         )
     }
 }
