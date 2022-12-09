@@ -24,4 +24,14 @@ We plan to:
 - Allow the user to specify data transformers (to JSON, to CSV, etc.) (5 hours)
 
 ## Technologies
-We plan to use Typescript, Electron and Node.js with a user interface built with React. We are going to leverage the popular web scraping library [Puppetee](https://pptr.dev/) for our scraping. 
+We plan to use Typescript, Electron and Node.js with a user interface built with React. We are going to leverage the popular web scraping library [Puppeteer](https://pptr.dev/) for our scraping. 
+
+# Installation
+- Install node.js and npm
+- Clone the repo
+- Run "npm install" within the base directory
+- Run "cd scheduler" and then "npm install" within the scheduler subdirectory
+- Start the scheduler by running "npm run start" in the subdirectory
+- In another terminal, go to the root of the repo
+- Run "npm run dev" to run a development build
+- Navigate to https://localhost:3000/

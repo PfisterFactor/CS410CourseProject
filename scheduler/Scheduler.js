@@ -1,9 +1,8 @@
 const cron = require("node-cron");
 const mongoose = require("mongoose");
-const axios = require("axios");
-const cheerio = require("cheerio");
 const later = require("@breejs/later");
 const dotenv = require("dotenv");
+const puppeteer = require("puppeteer");
 
 const CSSSelectorSchema = new mongoose.Schema({
     name: String,
@@ -43,11 +42,13 @@ async function ConnectToDB() {
 }
 
 dotenv.config();
+let browser;
 Startup();
 
 async function Startup() {
+    browser = await puppeteer.launch();
     await ScrapeWorker(new Date());
-    const worker = cron.schedule("* * * * *",async (now) => {
+    const worker = cron.schedule("* * * * *", async (now) => {
         await ScrapeWorker(now);
     });
     worker.start();
@@ -60,7 +61,7 @@ async function ScrapeWorker(now) {
     let scrapingTasksToRun = [];
     for (const scrapeDetail of scrapeDetails) {
         const parsed = later.parse.cron(scrapeDetail.schedule);
-        const nextRun = later.schedule(parsed).next(1,scrapeDetail.lastRan);
+        const nextRun = later.schedule(parsed).next(1, scrapeDetail.lastRan);
         if (nextRun <= now) {
             scrapingTasksToRun.push(scrapeDetail);
         }
@@ -69,7 +70,7 @@ async function ScrapeWorker(now) {
     for (const scrapeDetail of scrapingTasksToRun) {
         console.log(`Running scraping task on '${scrapeDetail.url}' for ID: '${scrapeDetail._id}'`);
         const scraped = await ScrapePage(scrapeDetail);
-        UploadScrapedDataToDB(scrapeDetail,scraped, now);
+        UploadScrapedDataToDB(scrapeDetail, scraped, now);
         console.log(`Finished scraping task for ID: '${scrapeDetail._id}`);
     }
 }
@@ -78,22 +79,30 @@ async function ScrapePage(scrapeDetail) {
     const selectors = scrapeDetail.CSSSelectors;
     const collectedData = [];
     try {
-        const site = await axios.get(url);
-        const html = site.data;
-        const $ = cheerio.load(html);
+        const page = await browser.newPage();
+        await page.goto(url);
         for (const selectorInfo of selectors) {
             const selector = selectorInfo.selector;
-            const data = $(selector).text();
-            collectedData.push({
-                [selectorInfo.slug]: data
-            });
+            try {
+                await page.waitForSelector(selector, { timeout: 5000 });
+                const data = await page.evaluate((selector) => {
+
+                    return document.querySelector(selector)?.textContent;
+                }, selector)
+                collectedData.push({
+                    [selectorInfo.slug]: data
+                });
+            } catch(e) {
+                console.warn("Warning: Could not find selector.");
+            }
+
         }
     }
-    catch(e) {
+    catch (e) {
         console.warn(`Error scraping page '${url}' for scrape detail job '${scrapeDetail._id}': ${e}`);
     }
     return collectedData;
-    
+
 }
 async function UploadScrapedDataToDB(detail, data, now) {
     if (data == []) return;
