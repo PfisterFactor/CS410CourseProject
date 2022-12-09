@@ -1,6 +1,7 @@
 .body {
-    background-image: url('../images/login-background-img.jpg');
-    height: 30em;
+    background-color: rgb(153, 204, 255);
+	height: 100em;
+	text-align: center;
 }
 
 .testing-styles {
@@ -22,5 +23,30 @@
 }
 
 .input-box {
-    text-align: center;
+	text-align: center;
+}
+
+.button {
+	border: 0.25em solid white;
+	padding-left: 5em;
+	padding-right: 5em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	border-radius: 2em;
+}
+
+.textarea-success {
+	display: none;
+	text-align: center;
+	padding: 2em;
+	border: 2em solid black;
+	background-color: lightgreen;
+}
+
+.textarea-failure {
+	display: none;
+	text-align: center;
+	padding: 2em;
+	border: 2em solid black;
+	background-color: red;
 }

@@ -52,25 +52,53 @@ export default class Login extends React.Component<LoginProps> {
 			console.log(email_input); // sanity check
 			console.log(pass_input); // sanity check
 			axios.post('http://localhost:3000/api/login', {params: {email: email_input, pass: pass_input}})
+				.then(res => res.data)
+					.then( (json_result) => {
+						let success = json_result.success;
+						if (success) {
+							console.log("login successful!");
+							// notify the user that their account creation was a success
+							// possibly log them in after this
+							const success_box = document.getElementById("success_box");
+							success_box.style.display = "inline";
+							const failure_box = document.getElementById("failure_box");
+							failure_box.style.display = "none";
+						} else {
+							// notify the user that their account creation was a failure
+							console.log("unable to login");
+							const failure_box = document.getElementById("failure_box");
+							failure_box.style.display = "inline";
+							const success_box = document.getElementById("success_box");
+							success_box.style.display = "none";
+						}
+					});
 		}
 		
         return (
-            <div className={styles["body"]}>
-				<form onSubmit={handleSubmit}>
-					<h1 className={styles["login-header"]}>Login Page</h1>
-					<label className={styles["input-box"]}>
+            <form className={styles["body"]} onSubmit={handleSubmit}>
+					<h1 className={styles["login-header"]}>Account Login</h1>
+					<br/>
+					<div className={styles["input-box"]}>
 						<input id={"email_box"} className={styles["input"]} placeholder={"Username"}
 							></input>
-					</label>
-					<label className={styles["input-box"]}>
+					</div>
+					<br/>
+					<div className={styles["input-box"]}>
 						<input id={"pass_box"} className={styles["input"]} placeholder={"Password"} type={"password"}
 							></input>
-					</label>
-					<div className={styles["input-box"]}>
-						<button type={"submit"}>Log in</button>
 					</div>
+					<br/>
+					<div className={styles["input-box"]}>
+						<button className={styles["button"]} type={"submit"}>Login</button>
+					</div>
+					<br/><br/><br/>
+					<textarea readOnly id={"success_box"} className={styles["textarea-success"]}
+						defaultValue={"Login Successful!"}>
+					</textarea>
+					<textarea readOnly id={"failure_box"} className={styles["textarea-failure"]}
+						defaultValue={"Incorrect email or password"}>
+					</textarea>
 				</form>
-            </div>
         )
     }
 }
