@@ -7,6 +7,7 @@ import { IScrapeDetail, ScrapeDetailModel } from "../backend/db/schemas/ScrapeDe
 import { UserModel } from "../backend/db/schemas/User";
 import { GetServerSidePropsContext } from "next";
 import { ConnectToDB } from "../backend/db/Database";
+import ManModal from "../components/managerModal";
 
 
 const COLUMNS = [
@@ -96,7 +97,8 @@ export default class Manager extends React.Component<ManagerProps, ManagerState>
             <QueueTable scrapeDetails={this.props.scrapeDetails}> </QueueTable>
           </div>
           <div className={styles.flexRight}>
-            <button> Scraping Settings </button>
+            {/* <button> Scraping Settings </button> */}
+            <ManModal/>
           </div>
         </div>
       </div>
