@@ -64,12 +64,12 @@ body.active-modal {
 
 .modal_content {
     position: absolute;
-    top: 30%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     line-height: 1.4;
     background: rgb(67, 100, 116);
-    padding: 200px 100px;
+    padding: 5% 100px;
     border-radius: 3px;
     max-width: 600px;
     min-width: 300px;
