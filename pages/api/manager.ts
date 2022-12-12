@@ -8,7 +8,7 @@ import { UserModel } from '../../backend/db/schemas/User';
 //     data: any
 // }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     console.log("reached handler");
     if (req.method === 'GET') {
         console.log("getting");
@@ -34,8 +34,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
                 res.status(200).json({message: "Data successfully deleted"});
             } catch (err) {
-                res.status(500).json({ message: 'Unable to remove this document from the database' });
+                res.status(500).json({ message: 'Unable to remove this document from the database', error: err });
             }
+        }
+    } else if (req.method === 'PUT') {
+        console.log('putting!');
+        
+        const put_id = req.body.data.doc_id;
+        const new_schedule = req.body.data.update_schedule;
+
+        try {
+            var old_data = await ScrapeDetailModel.findByIdAndUpdate(put_id, {schedule: new_schedule});
+            // console.log("Old DATA: ", old_data);
+            res.status(200).json({message: "Schedule was successfully updated!", old_data: old_data});
+        } catch (err) {
+            res.status(500).json({ message: 'Unable to update this document from the database', error: err });
         }
     }
     console.log("Returning!");

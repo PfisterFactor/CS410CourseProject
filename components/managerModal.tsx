@@ -17,9 +17,7 @@ export default function ManModal(props: any) {
             .then(res => res.data)
             .then((jsonData) =>{
                 toggleModal;
-                console.log("wtf");
             });
-        // alert("Data deleted! Reload page to see changes.");
     };
 
     const SubmitScheduleData = (e:any) => {
@@ -27,12 +25,17 @@ export default function ManModal(props: any) {
         var new_schedule  = e.target.schedule.value;
         console.log("Rescheduling URL with ID: ", props._id);
         console.log("New Schedule: ", new_schedule);
-        
-        if (new_schedule == null || new_schedule == "") {
-            alert("ERROR! Invalid schedule was attempted to be added.");
+
+        const CRON_regex = /(((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*) ?){5,7}/ // Taken from: https://regexpattern.com/cron-time-expression/
+        const is_valid_CRON = CRON_regex.test(new_schedule);
+        console.log(is_valid_CRON);
+
+        if (new_schedule == null || new_schedule == "" || !is_valid_CRON) {
+            alert("ERROR! Invalid schedule was attempted to be added. Please enter a valid CRON schedule. See \"https://crontab.guru/\" for help!");
         } else {
-            alert("new schedule Updated for this document");
-            toggleModal;
+            console.log("before axios");
+            axios.put("http://localhost:3000/api/manager", {data: {doc_id: props._id, update_schedule:new_schedule }});
+            alert("Data Updated! Refresh window to see results!");
         }
     };
 
@@ -51,12 +54,12 @@ export default function ManModal(props: any) {
 
                             URL: {props?.url!} <br/>
                             Schedule: {props?.schedule!}<br/>
-                            Scrapes Ran:{props?.scrapesRan!}<br/>
+                            Scrapes Ran: {props?.scrapesRan!}<br/>
                         </div>
                         <br/><br/>
 
                         <form onSubmit={SubmitScheduleData}>
-                            Enter new schedule:<br/>
+                            Enter new CRON schedule:<br/>
                             <input type={"text"} name="schedule" className={styles.input_color} placeholder= {props?.schedule!} />
                             <button className={styles.submit_modal} >
                                 Submit

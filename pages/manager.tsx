@@ -65,7 +65,7 @@ const DataExportButton = (props: any) => {
 }
 const QueueTable = (props: any) => {
   const tableData = props.scrapeDetails?.map((d: IScrapeDetail) => ({ ...d, id: d.url! })) ?? []
-  console.log(props.scrapeDetails);
+  // console.log(props.scrapeDetails);
   return <CompactTable columns={COLUMNS} data={{ nodes: tableData }} />;
 };
 
