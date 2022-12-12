@@ -47,7 +47,7 @@ export default function ManModal(props: any) {
                     <div onClick={toggleModal} className={styles.overlay}></div>
                     <div className={styles.modal_content}>
                         <div className = {styles.modal_text}>
-                            <h2>Current URL Data:</h2>
+                            Current URL Data:<br/>
 
                             URL: {props?.url!} <br/>
                             Schedule: {props?.schedule!}<br/>
