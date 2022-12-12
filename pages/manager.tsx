@@ -15,7 +15,9 @@ const COLUMNS = [
   { label: 'Schedule', renderCell: (item: any) => item?.schedule! },
   { label: "Selector Count", renderCell: (item: any) => item?.CSSSelectors?.length?.toString() ?? "0" },
   { label: '# Successful Scrapes', renderCell: (item: any) => item.scrapesRan! },
-  { label: "Export Data", renderCell: (item: any) => DataExportButton({detailID: item._id})}
+  { label: "Export Data", renderCell: (item: any) => DataExportButton({detailID: item._id})},
+  { label: "Manage URL", renderCell: (item: any) => ManModal(item)},
+  // { label: "Delete", renderCell: (item: any) => ManModal()}
 ];
 
 interface ManagerProps {
@@ -41,7 +43,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   
   scrapeDetails.forEach(detail => {
     detail._id = detail._id.toString();
+    // console.log(detail._id);
   });
+
+  // console.log(scrapeDetails);
 
   return {
     props: {
@@ -60,6 +65,7 @@ const DataExportButton = (props: any) => {
 }
 const QueueTable = (props: any) => {
   const tableData = props.scrapeDetails?.map((d: IScrapeDetail) => ({ ...d, id: d.url! })) ?? []
+  console.log(props.scrapeDetails);
   return <CompactTable columns={COLUMNS} data={{ nodes: tableData }} />;
 };
 
@@ -77,29 +83,23 @@ export default class Manager extends React.Component<ManagerProps, ManagerState>
     };
   }
 
-  override componentDidMount(): void {
-
-  }
-
-  updateTableNodes() {
-
-  }
-
   override render(): React.ReactNode {
 
     return (
       <div>
         <div className={styles.managerContainer}>
-          <div className={styles.flexLeft}>
-            <div className={styles.LHS_Header}>
+          {/* <div className={styles.flexLeft}> */}
+            {/* <div className={styles.LHS_Header}>
               Task Queue
-            </div>
+            </div> */}
+            <span className={styles.LHS_Header}> Task Queue</span>
+
             <QueueTable scrapeDetails={this.props.scrapeDetails}> </QueueTable>
-          </div>
-          <div className={styles.flexRight}>
-            {/* <button> Scraping Settings </button> */}
+          {/* </div> */}
+          {/* <div className={styles.flexRight}>
+            {/* <button> Scraping Settings </button>
             <ManModal/>
-          </div>
+          </div> */}
         </div>
       </div>
     )
