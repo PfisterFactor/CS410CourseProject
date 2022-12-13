@@ -1,17 +1,14 @@
+import Cookies from "js-cookie";
 import { GetServerSidePropsContext } from "next";
-import React, {useState} from "react";
-import { ConnectToDB } from "../backend/db/Database";
-import { UserModel } from "../backend/db/schemas/User";
-import styles from "../styles/pages/login.module.css"
-import { Input } from 'antd';
-import { Form, Button } from 'antd'
-import { useForm } from 'antd/lib/form/Form';
-import mongoose = require("mongoose");
-import axios from "axios";
+import React from "react";
+import { EmailInput } from "../components/login/EmailInput";
+import { PasswordInput } from "../components/login/PasswordInput";
+import styles from "../styles/pages/login.module.css";
 
-interface LoginProps {
-    email: String,
-	password: String
+interface LoginState {
+  email: string;
+  password: string;
+  statusText: string;
 }
 
 /**
@@ -21,84 +18,100 @@ interface LoginProps {
  * @returns an object containing properties to pass to the client
  */
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-    ConnectToDB();
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('')
-
-    const exampleUser = await UserModel.findOne({
-        email: "example@example.com"
-    }).exec();
-
-    return {
-        props: {
-            email: exampleUser?.email,
-            password: exampleUser?.password
-        }
-    };
+  return {
+    props: {},
+  };
 }
 /**s
  * The login page (Key interaction #1)
  * Route: "/login"
  */
-export default class Login extends React.Component<LoginProps> {
-    override render(): React.ReactNode {
+export default class Login extends React.Component<{}, LoginState> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      statusText: "",
+    };
+  }
+  OnSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    this.Submit(e);
+  }
+  async Submit(e: React.FormEvent) {
+    e.preventDefault();
+    this.setState({ ...this.state, statusText: "" });
+    const response = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+      }),
+    });
+    const jsonResp = await response.json();
+	if (jsonResp["error"] != null) {
+		this.setState({...this.state,statusText: jsonResp["error"]});
+		return;
+	}
+	const loginToken = jsonResp["data"]?.["loginToken"];
+	Cookies.set("LoginToken", loginToken, {
+	  secure: true,
+	  sameSite: "strict",
+	});
+	window.location.href = "/manager";
+  }
 
-		//ConnectToDB();
-
-		const handleSubmit = (event: React.FormEvent) => {
-			event.preventDefault();
-			const email_input = document.getElementById('email_box').value;
-			const pass_input = document.getElementById('pass_box').value;
-			console.log(email_input); // sanity check
-			console.log(pass_input); // sanity check
-			axios.post('http://localhost:3000/api/login', {params: {email: email_input, pass: pass_input}})
-				.then(res => res.data)
-					.then( (json_result) => {
-						let success = json_result.success;
-						if (success) {
-							console.log("login successful!");
-							// notify the user that their account creation was a success
-							// possibly log them in after this
-							const success_box = document.getElementById("success_box");
-							success_box.style.display = "inline";
-							const failure_box = document.getElementById("failure_box");
-							failure_box.style.display = "none";
-						} else {
-							// notify the user that their account creation was a failure
-							console.log("unable to login");
-							const failure_box = document.getElementById("failure_box");
-							failure_box.style.display = "inline";
-							const success_box = document.getElementById("success_box");
-							success_box.style.display = "none";
-						}
-					});
-		}
-		
-        return (
-            <form className={styles["body"]} onSubmit={handleSubmit}>
-					<h1 className={styles["login-header"]}>Account Login</h1>
-					<br/>
-					<div className={styles["input-box"]}>
-						<input id={"email_box"} className={styles["input"]} placeholder={"Username"}
-							></input>
-					</div>
-					<br/>
-					<div className={styles["input-box"]}>
-						<input id={"pass_box"} className={styles["input"]} placeholder={"Password"} type={"password"}
-							></input>
-					</div>
-					<br/>
-					<div className={styles["input-box"]}>
-						<button className={styles["button"]} type={"submit"}>Login</button>
-					</div>
-					<br/><br/><br/>
-					<textarea readOnly id={"success_box"} className={styles["textarea-success"]}
-						defaultValue={"Login Successful!"}>
-					</textarea>
-					<textarea readOnly id={"failure_box"} className={styles["textarea-failure"]}
-						defaultValue={"Incorrect email or password"}>
-					</textarea>
-				</form>
-        )
-    }
+  override render(): React.ReactNode {
+    return (
+      <div className="w-full h-full flex flex-col justify-center items-center">
+        <div className="flex items-baseline justify-start">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="-2 -2 24 24"
+            width={120}
+            height={60}
+            className={"inline-block"}
+            fill="currentColor"
+          >
+            <path d="M3 12a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H3zm0-2a3 3 0 0 1-3-3V3a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3 3 3 0 0 1 3 3v4a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3v-4a3 3 0 0 1 3-3zm0-8a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H3zm2 4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0 10a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-3 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"></path>
+          </svg>
+          <h1 className="text-6xl mb-12">Web Scraper</h1>
+        </div>
+        <form className="border-2 w-1/2" onSubmit={(e) => this.OnSubmit(e)}>
+          <h1 className="text-center text-3xl mt-8">Login</h1>
+          <div className={styles["input-box"]}>
+            <EmailInput
+              onChange={(email) =>
+                this.setState({ ...this.state, email: email })
+              }
+              value={this.state.email}
+            ></EmailInput>
+          </div>
+          <div className={styles["input-box"]}>
+            <PasswordInput
+              onChange={(password) =>
+                this.setState({ ...this.state, password: password })
+              }
+              value={this.state.password}
+            ></PasswordInput>
+          </div>
+          <div className="text-center mt-4 mb-4">
+            <button
+              className="px-5 py-2.5 text-white bg-indigo-600 rounded-md duration-150 hover:bg-indigo-700 active:shadow-lg"
+              type="submit"
+            >
+              Login
+            </button>
+          </div>
+          <textarea
+            readOnly
+            id={"success_box"}
+            className="text-center w-full"
+            defaultValue={this.state.statusText}
+          ></textarea>
+        </form>
+      </div>
+    );
+  }
 }

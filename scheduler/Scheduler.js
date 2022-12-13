@@ -66,13 +66,15 @@ async function ScrapeWorker(now) {
             scrapingTasksToRun.push(scrapeDetail);
         }
     }
+    console.log(`${scrapeDetails.length} out of ${scrapingTasksToRun.length} scraping tasks need to be ran!`);
 
     for (const scrapeDetail of scrapingTasksToRun) {
-        console.log(`Running scraping task on '${scrapeDetail.url}' for ID: '${scrapeDetail._id}'`);
+        console.log(`Running scraping task on '${scrapeDetail.url}' for ID: '${scrapeDetail._id}' for user: '${scrapeDetail.userID}'`);
         const scraped = await ScrapePage(scrapeDetail);
         UploadScrapedDataToDB(scrapeDetail, scraped, now);
         console.log(`Finished scraping task for ID: '${scrapeDetail._id}`);
     }
+    console.log("Scraping worker finished!");
 }
 async function ScrapePage(scrapeDetail) {
     const url = scrapeDetail.url;

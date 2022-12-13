@@ -1,7 +1,7 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import App from "next/app"
-import AppHeader from '../components/AppHeader'
+import "../styles/globals.css";
+import type { AppContext, AppInitialProps, AppProps } from "next/app";
+import App from "next/app";
+import { AppHeader } from "../components/AppHeader";
 
 /**
  * Parent component for all components in a NextJS application
@@ -16,6 +16,6 @@ export default class MyApp extends App<AppProps> {
         <AppHeader />
         <this.props.Component {...this.props.pageProps} />
       </div>
-    )
-  } 
+    );
+  }
 }

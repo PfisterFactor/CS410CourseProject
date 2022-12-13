@@ -3,10 +3,6 @@ import { ConnectToDB } from '../../backend/db/Database';
 import {ScrapeDetailModel} from "../../backend/db/schemas/ScrapeDetail";
 import { ScrapeDataModel } from '../../backend/db/schemas/ScrapeData';
 import { UserModel } from '../../backend/db/schemas/User';
-// type ResponseData = {
-//     message: string,
-//     data: any
-// }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     console.log("reached handler");

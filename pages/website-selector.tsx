@@ -7,6 +7,8 @@ import { CompactTable } from '@table-library/react-table-library/compact';
 import FrequencyDropdown from "../components/website-selector/FrequencyDropdown";
 import { CRON_SCHEDULE } from "../common/CronSchedules";
 import CronInput from "../components/website-selector/CronInput";
+import { IUser } from "../backend/db/schemas/User";
+import { GetUserFromLoginToken } from "../backend/login/GetUserFromLoginToken";
 
 /**
  * This method is run on the server and the data it returns is passed to the component's props
@@ -14,6 +16,21 @@ import CronInput from "../components/website-selector/CronInput";
  * @param ctx server side context
  * @returns an object containing properties to pass to the client
  */
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+    const loginToken: string | null = ctx.req.cookies["LoginToken"] ?? null;
+    const user: IUser | null = await GetUserFromLoginToken(loginToken);
+    if (user == null) {
+      return {
+        redirect: {
+          destination: "/login",
+        },
+      };
+    }
+  
+    return {
+      props: {},
+    };
+  }
 interface WebsiteSelectorProps { }
 
 interface WebsiteSelectorState {
@@ -107,7 +124,7 @@ export default class WebsiteSelector extends React.Component<WebsiteSelectorProp
         const script = document.createElement("script");
         jqueryInject.src = "https://code.jquery.com/jquery-3.6.1.min.js";
         script.src = window.location.origin + "/inject/selectorScript.js";
-        if (iframe?.contentWindow?.jQuery == null) {
+        if ((iframe as any)?.contentWindow?.jQuery == null) {
             iframe.contentDocument?.head.appendChild(jqueryInject);
         }
         iframe.contentDocument?.head.appendChild(script);
