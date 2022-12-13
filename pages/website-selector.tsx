@@ -145,15 +145,8 @@ export default class WebsiteSelector extends React.Component<WebsiteSelectorProp
             e.preventDefault();
             return;
         }
-        console.log("hi");
         await fetch("/api/scrapedetail", {
-            method: "post",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-
-            //make sure to serialize your JSON body
+            method: "POST",
             body: JSON.stringify({
                 data: {
                     selectedElements: this.state.selectedElements,
@@ -189,7 +182,7 @@ export default class WebsiteSelector extends React.Component<WebsiteSelectorProp
                         <div className="w-full border-slate-500 pt-10">
                             <FrequencyDropdown onValueChanged={(v) => this.OnFrequencyValueChanged(v)}></FrequencyDropdown>
                             {this.state.frequency.name == "custom" &&
-                                <CronInput onChange={(v: any) => this.setState({ ...this.state, frequency: { name: "custom", cron: v } })}></CronInput>
+                                <CronInput onChange={(v: any) => this.setState({ ...this.state, frequency: { name: "custom", cron: v } })} value={this.state.frequency.cron}></CronInput>
                             }
                         </div>
                         <button

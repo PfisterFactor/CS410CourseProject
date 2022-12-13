@@ -15,7 +15,6 @@ const ScrapeDetailSchema = new mongoose.Schema(
         url: String,
         CSSSelectors: [CSSSelectorSchema],
         schedule: String,
-        userID: String,
         lastRan: Date,
         scrapesRan: Number
     }
@@ -69,7 +68,7 @@ async function ScrapeWorker(now) {
     console.log(`${scrapeDetails.length} out of ${scrapingTasksToRun.length} scraping tasks need to be ran!`);
 
     for (const scrapeDetail of scrapingTasksToRun) {
-        console.log(`Running scraping task on '${scrapeDetail.url}' for ID: '${scrapeDetail._id}' for user: '${scrapeDetail.userID}'`);
+        console.log(`Running scraping task on '${scrapeDetail.url}' for ID: '${scrapeDetail._id}'`);
         const scraped = await ScrapePage(scrapeDetail);
         UploadScrapedDataToDB(scrapeDetail, scraped, now);
         console.log(`Finished scraping task for ID: '${scrapeDetail._id}`);

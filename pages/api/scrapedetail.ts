@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { Types } from 'mongoose'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ScrapeDetailModel } from '../../backend/db/schemas/ScrapeDetail'
 import { GetUserFromLoginToken } from '../../backend/login/GetUserFromLoginToken'
@@ -11,13 +11,17 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any | ErrorResp>
 ) {
+    if (req.method !== "POST") {
+        res.status(404).json({ error: "This endpoint only accepts POST" });
+        return;
+      }
     const loginToken: string | null = req.cookies["LoginToken"] ?? null;
     const user = await GetUserFromLoginToken(loginToken);
     if (user == null) {
       res.status(401).json({ error: "Invalid login token" });
       return;
     }
-    const body = req.body;
+    const body = JSON.parse(req.body);
     const selectedElements: {
         id: string,
         name: string,
@@ -27,6 +31,7 @@ export default async function handler(
     const website = body.data?.website;
 
     const toInsert: mongoose.Document = new ScrapeDetailModel({
+        _id: new Types.ObjectId(),
         CSSSelectors: selectedElements.map(e => ({name: e.name, selector: e.selector, slug: e.name.toLowerCase().replace(" ", "-")})),
         lastRan: new Date(-8640000000000000),
         scrapesRan: 0,

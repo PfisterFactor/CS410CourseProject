@@ -1,4 +1,4 @@
-import mongoose, { InferSchemaType } from "mongoose"
+import mongoose, { InferSchemaType, Schema } from "mongoose"
 
 const CSSSelectorSchema = new mongoose.Schema({
     name: String,
@@ -8,15 +8,16 @@ const CSSSelectorSchema = new mongoose.Schema({
 
 const ScrapeDetailSchema = new mongoose.Schema(
     {
+        _id: Schema.Types.ObjectId,
         url: String,
         CSSSelectors: [CSSSelectorSchema],
         schedule: String,
-        userID: String,
         lastRan: Date,
         scrapesRan: Number
     }
 );
 
 export type IScrapeDetail = InferSchemaType<typeof ScrapeDetailSchema>
-export const ScrapeDetailModel = mongoose?.models?.ScrapeDetail || mongoose.model("ScrapeDetail", ScrapeDetailSchema, "scrapedetail");
+const cachedModel = mongoose?.models?.ScrapeDetail as mongoose.Model<IScrapeDetail,{},{},{},typeof ScrapeDetailSchema>;
+export const ScrapeDetailModel = cachedModel || mongoose.model("ScrapeDetail", ScrapeDetailSchema, "scrapedetail");
 
