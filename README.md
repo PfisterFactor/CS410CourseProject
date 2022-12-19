@@ -26,7 +26,22 @@ We plan to:
 ## Technologies
 We plan to use Typescript, Electron and Node.js with a user interface built with React. We are going to leverage the popular web scraping library [Puppeteer](https://pptr.dev/) for our scraping. 
 
-# Installation
+# Visual Web Scraper Documentation
+
+## How To Use
+The Visual Web Scraper can be used by first setting up the dev environment and starting the scheduler and NextJS website.
+
+From there you will be directed to create an account on our sign up page, which can be done with any email (there is no verification currently).
+
+After signing in, you can specify a new page to scrape by clicking the Scrape New Page button. From here, you can navigate to any website, click the select element button, and see a visual indicator for every element on the page. You can then select an element and it will queue it on the left. After you are finished, assign a CRON schedule (whether predefined or custom) and save the scraping detail.
+
+You will then be taken to the manager page, and can see all of the scrapes you have queued. It will show you the stats, allow you to edit scrapes, and allow you to download the JSON exports.
+
+## Example Account Login
+- Username: test@example.com
+- Password: 1234
+
+## Installation
 - Install node.js and npm
 - Clone the repo
 - Run "npm install" within the base directory
@@ -35,3 +50,5 @@ We plan to use Typescript, Electron and Node.js with a user interface built with
 - In another terminal, go to the root of the repo
 - Run "npm run dev" to run a development build
 - Navigate to https://localhost:3000/
+
+
